@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pivotal.Extensions.Configuration.ConfigServer;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 
 namespace AspnetCoreWeb
 {
@@ -23,6 +25,11 @@ namespace AspnetCoreWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureConfigServerClientOptions(Configuration);
+
+            services.AddConfiguration(Configuration);
+            services.ConfigureCloudFoundryOptions(Configuration);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -30,7 +37,7 @@ namespace AspnetCoreWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.Configure<ConfigServerData>(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

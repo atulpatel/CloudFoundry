@@ -1,0 +1,5 @@
+﻿---
+applications:
+- name: AspnetCoreWeb
+  memory: 512M
+  random-route:true

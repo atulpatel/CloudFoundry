@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Pivotal.Extensions.Configuration.ConfigServer;
 
 namespace AspnetCoreWeb
 {
@@ -19,6 +20,8 @@ namespace AspnetCoreWeb
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .UseCloudFoundryHosting()
+            .ConfigureAppConfiguration(a => a.AddConfigServer(new LoggerFactory().AddConsole(LogLevel.Trace)))
                 .UseStartup<Startup>();
     }
 }
